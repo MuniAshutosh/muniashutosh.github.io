@@ -4,25 +4,212 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SilyDemo</title>
+    <title>SilyDemo - Intro</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <style>
+        :root {
+            --primary: #007AFF;
+            --bg: #ffffff;
+            --card-bg: #f2f2f7;
+            --text: #1c1c1e;
+            --subtext: #8e8e93;
+            --border: #e5e5e5;
+        }
+
+        [data-theme="dark"] {
+            --bg: #1c1c1e;
+            --card-bg: #2c2c2e;
+            --text: #ffffff;
+            --subtext: #a1a1a6;
+            --border: #3a3a3c;
+        }
+
+        body {
+            font-family: -apple-system, system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 20px;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        /* Tab Navigation */
+        .tabs {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 10px;
+            overflow-x: auto;
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            padding: 10px 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            color: var(--subtext);
+            white-space: nowrap;
+            transition: 0.2s;
+        }
+
+        .tab-btn.active {
+            color: var(--primary);
+            font-weight: 600;
+            border-bottom: 2px solid var(--primary);
+        }
+
+        /* Content Sections */
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Tool Card Aesthetic */
+        .card {
+            background: var(--card-bg);
+            padding: 24px;
+            border-radius: 22px;
+            margin-bottom: 20px;
+            border: 1px solid var(--border);
+        }
+
+        .badge {
+            font-size: 0.7rem;
+            background: var(--primary);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 5px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-link {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 15px;
+        }
+
+        .theme-toggle {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 8px 12px;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+    </style>
 </head>
 
 <body>
-    Hello Sily!
+
+    <header>
+        <div>
+            <h1 style="margin:0;">Hello Sily!</h1>
+            <p style="color: var(--subtext); margin: 5px 0 0 0;">Digital Workbench</p>
+        </div>
+        <button class="theme-toggle" onclick="toggleTheme()">🌓</button>
+    </header>
+
+    <nav class="tabs">
+        <button class="tab-btn active" onclick="openTab(event, 'info')">Builder</button>
+        <button class="tab-btn" onclick="openTab(event, 'tools')">Cool Tools</button>
+        <button class="tab-btn" onclick="openTab(event, 'blog')">Blog</button>
+    </nav>
 
     <main>
-
-        <section>
-
-            Go to <a href="./resume"> builder's info.</a>
+        <section id="info" class="tab-content active">
+            <h2>The Builder</h2>
+            <p>I focus on high-utility web tools that solve hardware and mathematical gaps.</p>
+            <a href="./resume" style="color: var(--primary); font-weight: 500;">Go to builder's info →</a>
         </section>
 
-        <section>
+        <section id="tools" class="tab-content">
+            <div class="card">
+                <span class="badge">New Utility</span>
+                <h3 style="margin: 10px 0;">UnitFlow</h3>
+                <p style="color: var(--subtext); line-height: 1.5;">
+                    The All-in-One Precision Workspace. A minimalist, high-performance utility designed for engineers,
+                    makers, and designers to bridge the gap between mental math and physical measurements.
+                </p>
 
-            Constructing Blog,
+                <a href="./unit-flow" class="btn-link">Launch UnitFlow</a>
+            </div>
+
+            <div class="card">
+                <span class="badge">Audio Tech</span>
+                <h3 style="margin: 10px 0;">Phone to mic</h3>
+                <p style="color: var(--subtext); line-height: 1.5;">
+                    Wireless audio routing. Use your mobile device as an external microphone for Bluetooth speakers with
+                    real-time feedback.
+                </p>
+
+                <a href="./phone-to-mic" class="btn-link"
+                    style="background: transparent; color: var(--primary); border: 1px solid var(--primary);">Open Mic
+                    Pro</a>
+            </div>
         </section>
 
+        <section id="blog" class="tab-content">
+            <h2>Constructing Blog</h2>
+            <p style="color: var(--subtext);">Writing about Web Audio API, UnitFlow logic, and building for the mobile
+                web.</p>
+        </section>
     </main>
+
+    <script>
+        function openTab(evt, tabName) {
+            const contents = document.getElementsByClassName("tab-content");
+            for (let i = 0; i < contents.length; i++) contents[i].classList.remove("active");
+
+            const btns = document.getElementsByClassName("tab-btn");
+            for (let i = 0; i < btns.length; i++) btns[i].classList.remove("active");
+
+            document.getElementById(tabName).classList.add("active");
+            evt.currentTarget.classList.add("active");
+        }
+
+        function toggleTheme() {
+            const body = document.documentElement;
+            const currentTheme = body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            body.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+        }
+
+        // Apply saved theme on load
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+    </script>
 </body>
 
 </html>
